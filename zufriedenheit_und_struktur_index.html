@@ -1,0 +1,2137 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Zufriedenheit & Struktur</title>
+  <meta name="theme-color" content="#161a28">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Zufriedenheit & Struktur">
+  <link rel="manifest" id="app-manifest">
+  <style>
+    :root {
+      --bg: #161a28;
+      --bg-mid: #111522;
+      --surface: #1d2336;
+      --surface-2: #202942;
+      --surface-3: #273452;
+      --border: #35466d;
+      --border-light: #5573b5;
+      --ink: #eef2ff;
+      --ink-light: #b7c1da;
+      --ink-dim: #7d88a8;
+      --gold: #f0c36a;
+      --gold-2: #ffda8c;
+      --purple: #8f72ff;
+      --purple-dark: #6141d9;
+      --green: #39c07f;
+      --green-dark: #248455;
+      --red: #e66969;
+      --red-dark: #b54545;
+      --blue: #65a8ff;
+      --blue-dark: #376fcb;
+      --teal: #35b7b0;
+      --teal-dark: #237972;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --body: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --fs-content: 16px;
+      --fs-label: 11px;
+      --fs-btn: 13px;
+      --touch-min: 44px;
+    }
+    @media (min-width: 640px) {
+      :root {
+        --fs-content: 17px;
+        --touch-min: 40px;
+      }
+    }
+    @media (min-width: 1024px) {
+      :root {
+        --fs-content: 15px;
+        --touch-min: 36px;
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+    body {
+      font-family: var(--body);
+      background-image:
+        radial-gradient(ellipse at 20% 0%, rgba(143,114,255,0.12) 0%, transparent 48%),
+        radial-gradient(ellipse at 100% 20%, rgba(101,168,255,0.08) 0%, transparent 38%),
+        linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.08));
+      min-height: 100vh;
+    }
+    #app {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px;
+    }
+    .htbox {
+      background: linear-gradient(135deg, #252040, #151b2b);
+      border: 1px solid var(--border-light);
+      box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+    }
+    .head-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .title-wrap h1 {
+      margin: 0 0 6px;
+      font-family: var(--mono);
+      font-size: 18px;
+      letter-spacing: 0.4px;
+      color: var(--gold);
+    }
+    .title-wrap .sub {
+      margin: 0;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      color: var(--ink-light);
+    }
+    .head-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .btn {
+      font-family: var(--body);
+      font-weight: 700;
+      font-size: var(--fs-btn);
+      padding: 10px 14px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      min-height: var(--touch-min);
+      box-shadow: 0 3px 12px rgba(0,0,0,0.24);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: transform .12s ease, opacity .12s ease, box-shadow .12s ease;
+      text-decoration: none;
+    }
+    .btn:hover { opacity: 0.96; }
+    .btn:active { transform: translateY(1px); box-shadow: none; }
+    .btn:disabled { opacity: 0.42; cursor: not-allowed; }
+    .btn-q { background: linear-gradient(135deg, var(--gold), #dfa648); color: #221300; }
+    .btn-m { background: linear-gradient(135deg, var(--purple), var(--purple-dark)); color: white; }
+    .btn-v { background: linear-gradient(135deg, var(--green), var(--green-dark)); color: white; }
+    .btn-s { background: linear-gradient(135deg, var(--blue), var(--blue-dark)); color: white; }
+    .btn-t { background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: white; }
+    .btn-d { background: linear-gradient(135deg, var(--red), var(--red-dark)); color: white; }
+    .btn-sm {
+      min-height: calc(var(--touch-min) - 8px);
+      padding: 8px 11px;
+      font-size: 12px;
+      border-radius: 9px;
+    }
+    .mono { font-family: var(--mono); }
+    .muted { color: var(--ink-light); }
+    .dim { color: var(--ink-dim); }
+    .row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .grow { flex: 1 1 280px; }
+    .w-half { flex: 1 1 460px; }
+    .tab-row {
+      display: flex;
+      gap: 2px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      flex-wrap: nowrap;
+      background: rgba(0,0,0,0.24);
+      border-radius: 12px 12px 0 0;
+      padding: 4px 4px 0;
+      margin-top: 4px;
+    }
+    .tab-row::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      font-family: var(--body);
+      font-weight: 700;
+      font-size: 12px;
+      padding: 11px 14px;
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: var(--ink-light);
+      white-space: nowrap;
+      flex-shrink: 0;
+      min-height: var(--touch-min);
+      cursor: pointer;
+    }
+    .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+    #hamburger-btn { display: none; }
+    .panel-wrap {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.3);
+      padding: 16px;
+      min-height: 360px;
+      border-radius: 0 0 12px 12px;
+    }
+    .panel { display: none; }
+    .panel.active { display: block; animation: fi .16s ease; }
+    @keyframes fi { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+    .qs {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 14px rgba(0,0,0,0.18);
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      border-radius: 12px;
+    }
+    .qh {
+      font-family: var(--body);
+      font-weight: 800;
+      font-size: 13px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .kpi {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .kpi .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--ink-light);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+    .kpi .value {
+      font-family: var(--mono);
+      font-size: 20px;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .notice {
+      background: rgba(240,195,106,0.08);
+      border-left: 3px solid var(--gold);
+      padding: 11px 13px;
+      font-size: 13px;
+      color: var(--ink-light);
+      line-height: 1.55;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 10px;
+    }
+    .notice.info { background: rgba(101,168,255,0.08); border-left-color: var(--blue); }
+    .notice.success { background: rgba(57,192,127,0.08); border-left-color: var(--green); }
+    .notice.danger { background: rgba(230,105,105,0.12); border-left-color: var(--red); }
+    label {
+      font-size: var(--fs-label);
+      font-weight: 700;
+      color: var(--ink-light);
+      text-transform: uppercase;
+      letter-spacing: 0.55px;
+      display: block;
+      margin-bottom: 6px;
+      margin-top: 12px;
+    }
+    input, textarea, select {
+      width: 100%;
+      background: rgba(0,0,0,0.24);
+      border: 1px solid var(--border);
+      color: var(--ink);
+      font-family: var(--body);
+      font-size: var(--fs-content);
+      padding: 10px 12px;
+      min-height: var(--touch-min);
+      border-radius: 10px;
+      resize: vertical;
+    }
+    textarea { min-height: 96px; }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--purple);
+      box-shadow: 0 0 0 2px rgba(143,114,255,0.22);
+    }
+    .helper {
+      font-size: 12px;
+      color: var(--ink-dim);
+      margin-top: 6px;
+      line-height: 1.45;
+    }
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(143,114,255,0.12);
+      color: var(--ink);
+      border: 1px solid rgba(143,114,255,0.25);
+      font-size: 12px;
+    }
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .card {
+      background: var(--surface-3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .card-head {
+      display: flex;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .card-title {
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--ink);
+      margin: 0;
+    }
+    .meta {
+      font-size: 12px;
+      color: var(--ink-light);
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .steps {
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: var(--ink-light);
+      line-height: 1.55;
+    }
+    .steps li { margin-bottom: 6px; }
+    .empty {
+      padding: 18px;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      color: var(--ink-light);
+      background: rgba(0,0,0,0.16);
+      text-align: center;
+    }
+    .split {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .rating-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .rating-value {
+      font-family: var(--mono);
+      color: var(--gold);
+      font-size: 15px;
+      min-width: 48px;
+      text-align: right;
+    }
+    input[type="range"] {
+      min-height: auto;
+      padding: 0;
+      background: transparent;
+      box-shadow: none;
+      border: none;
+    }
+    .codebox, pre {
+      font-family: var(--mono);
+      font-size: 13px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.52;
+      background: rgba(0,0,0,0.24);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      color: var(--ink);
+      overflow-x: auto;
+    }
+    .small-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 8px;
+    }
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--surface);
+      border: 1px solid var(--purple);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold);
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all .2s;
+      z-index: 999;
+      border-radius: 10px;
+      max-width: min(360px, calc(100vw - 24px));
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+    .modal-bg.hidden { display: none; }
+    .modal-box {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      padding: 20px;
+      width: min(620px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 14px;
+    }
+    .modal-title {
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      justify-content: flex-end;
+    }
+    #sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 300;
+      display: none;
+    }
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 280px;
+      background: var(--bg-mid);
+      border-right: 1px solid var(--border);
+      z-index: 301;
+      transform: translateX(-100%);
+      transition: transform .25s ease;
+      overflow-y: auto;
+      padding: 14px 0;
+    }
+    .sidebar-head {
+      padding: 0 18px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 10px;
+    }
+    .sidebar-head .mono {
+      color: var(--gold);
+      font-weight: 800;
+      font-size: 15px;
+    }
+    .sidebar-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 14px 20px;
+      background: none;
+      border: none;
+      border-left: 3px solid transparent;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--ink-light);
+      cursor: pointer;
+      text-align: left;
+    }
+    .sidebar-nav-btn.active { color: var(--gold); border-left-color: var(--gold); }
+    .divider { height: 1px; background: rgba(255,255,255,0.06); margin: 12px 0; }
+    @media (max-width: 767px) {
+      .tab-row { display: none; }
+      #hamburger-btn { display: inline-flex !important; }
+      .head-row { align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div id="sidebar-overlay" onclick="closeSidebar()"></div>
+  <aside id="sidebar"></aside>
+
+  <div id="app">
+    <header class="htbox">
+      <div class="head-row">
+        <div class="title-wrap">
+          <h1>Zufriedenheit &amp; Struktur</h1>
+          <p class="sub">Routinen überarbeiten · Lebensbereiche bewerten · Prompts erzeugen</p>
+        </div>
+        <div class="head-actions">
+          <button class="btn btn-m btn-sm" id="hamburger-btn" type="button" onclick="openSidebar()">☰ Menü</button>
+          <button class="btn btn-q btn-sm" type="button" onclick="switchTab('prompts')">Prompts</button>
+          <button class="btn btn-s btn-sm" type="button" onclick="gistPush(false)">☁ Hochladen</button>
+        </div>
+      </div>
+    </header>
+
+    <nav class="tab-row" id="tab-row"></nav>
+
+    <div class="panel-wrap">
+      <section class="panel active" id="panel-dashboard"></section>
+      <section class="panel" id="panel-import"></section>
+      <section class="panel" id="panel-routines"></section>
+      <section class="panel" id="panel-life"></section>
+      <section class="panel" id="panel-prompts"></section>
+      <section class="panel" id="panel-sync"></section>
+    </div>
+  </div>
+
+  <div id="choice-modal" class="modal-bg hidden">
+    <div class="modal-box">
+      <div class="modal-title" id="choice-title"></div>
+      <div id="choice-text" class="notice info"></div>
+      <div id="choice-actions" class="modal-actions"></div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    var APP_VERSION = 1;
+    var LKEY = 'zufriedenheit_struktur_v1';
+    var GIST_TOKEN_KEY = 'zufriedenheit_struktur_gist_token';
+    var GIST_ID_KEY = 'zufriedenheit_struktur_gist_id';
+    var GIST_AUTO_KEY = 'zufriedenheit_struktur_gist_auto';
+    var GIST_FILENAME = 'zufriedenheit_struktur_sync.json';
+    var TAB_DEFS = [
+      { id: 'dashboard', icon: '🏠', label: 'Überblick' },
+      { id: 'import', icon: '📥', label: 'Import' },
+      { id: 'routines', icon: '🧩', label: 'Routinen' },
+      { id: 'life', icon: '📊', label: 'Lebensbereiche' },
+      { id: 'prompts', icon: '🧠', label: 'Prompt-Studio' },
+      { id: 'sync', icon: '☁', label: 'Export & Sync' }
+    ];
+
+    var S = defaultState();
+    var currentTab = 'dashboard';
+    var gistAutoSyncTimer = null;
+    var toastTimer = null;
+    var choiceModalActions = [];
+
+    function defaultState() {
+      return {
+        meta: {
+          appName: 'Zufriedenheit & Struktur',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        context: {
+          currentSituation: '',
+          changes: '',
+          goals: '',
+          constraints: '',
+          notes: ''
+        },
+        routines: [],
+        lifeAreas: defaultLifeAreas(),
+        promptTemplates: defaultPromptTemplates(),
+        ui: {
+          search: '',
+          activeRoutineId: '',
+          lastImportReport: '',
+          importText: '',
+          exportText: '',
+          generatedImportPrompt: '',
+          generatedRefineAllPrompt: '',
+          generatedReviewPrompt: '',
+          generatedRoutineflowPrompt: '',
+          selectedLifeFocus: ''
+        },
+        _lastExported: ''
+      };
+    }
+
+    function defaultLifeAreas() {
+      return [
+        makeLifeArea('Gesundheit', 6, 'Energie, Schlaf, Bewegung, Ernährung.'),
+        makeLifeArea('Struktur & Alltag', 6, 'Routinen, Verlässlichkeit, Friktion im Tagesstart.'),
+        makeLifeArea('Arbeit / Lernen', 6, 'Fokus, Fortschritt, realistische Belastung.'),
+        makeLifeArea('Beziehungen', 6, 'Freunde, Familie, Pflege von Kontakten.'),
+        makeLifeArea('Wohnen', 6, 'Ordnung, Reibung, Atmosphäre, Logistik.'),
+        makeLifeArea('Finanzen', 5, 'Sicherheit, Überblick, Stresslevel.'),
+        makeLifeArea('Kreativität', 6, 'Schreiben, Ideen, Ausdruck, Spielraum.'),
+        makeLifeArea('Erholung', 5, 'Pausen, Regeneration, mentale Weite.')
+      ];
+    }
+
+    function defaultPromptTemplates() {
+      return {
+        jsonSchema: JSON.stringify({
+          routines: [
+            {
+              title: 'Name der Routine',
+              phase: 'z. B. Morgen / Abend / Arbeit / Reset',
+              durationMinutes: 20,
+              steps: ['Schritt 1', 'Schritt 2'],
+              tags: ['optional', 'kontext'],
+              notes: 'Kurze Bemerkung',
+              source: 'RoutineFlow Screenshot'
+            }
+          ],
+          lifeAreas: [
+            {
+              name: 'Gesundheit',
+              rating: 6,
+              notes: 'optional'
+            }
+          ],
+          context: {
+            currentSituation: 'optional',
+            changes: 'optional',
+            goals: 'optional',
+            constraints: 'optional'
+          }
+        }, null, 2),
+        screenshotToJson: [
+          'Du erhältst Screenshots oder Text aus RoutineFlow.',
+          'Extrahiere die enthaltenen Routinen in genau dieses JSON-Schema und gib NUR valides JSON zurück.',
+          '',
+          '{{jsonSchema}}',
+          '',
+          'Regeln:',
+          '- Keine Erklärung, kein Markdown, nur JSON.',
+          '- Schritte möglichst konkret formulieren.',
+          '- Fehlende Werte vorsichtig schätzen oder leer lassen.',
+          '- Wenn Lebensbereiche erkennbar sind, ebenfalls eintragen.'
+        ].join('\n'),
+        refineSingle: [
+          'Du überarbeitest genau eine Routine auf Basis meiner aktuellen Situation.',
+          '',
+          'AKTUELLE SITUATION',
+          '{{currentSituation}}',
+          '',
+          'VERÄNDERUNGEN',
+          '{{changes}}',
+          '',
+          'ZIELE',
+          '{{goals}}',
+          '',
+          'EINSCHRÄNKUNGEN',
+          '{{constraints}}',
+          '',
+          'LEBENSBEREICHE',
+          '{{lifeAreas}}',
+          '',
+          'ROUTINE',
+          '{{routine}}',
+          '',
+          'Aufgabe:',
+          '- Überarbeite die Routine realistisch für meine jetzigen Umstände.',
+          '- Reduziere unnötige Reibung.',
+          '- Formuliere Schritte klar und knapp.',
+          '- Gib NUR JSON im gleichen Routinenformat zurück.'
+        ].join('\n'),
+        refineAll: [
+          'Du überarbeitest mein komplettes Routinen-System.',
+          '',
+          'AKTUELLE SITUATION',
+          '{{currentSituation}}',
+          '',
+          'VERÄNDERUNGEN',
+          '{{changes}}',
+          '',
+          'ZIELE',
+          '{{goals}}',
+          '',
+          'EINSCHRÄNKUNGEN',
+          '{{constraints}}',
+          '',
+          'LEBENSBEREICHE',
+          '{{lifeAreas}}',
+          '',
+          'BESTEHENDE ROUTINEN',
+          '{{routines}}',
+          '',
+          'Aufgabe:',
+          '- Streiche oder vereinfache überladene Routinen.',
+          '- Hebe Routinen hervor, die aktuell am meisten Hebel haben.',
+          '- Passe Reihenfolge, Dauer und Umfang an.',
+          '- Gib NUR JSON im gleichen Routinenformat zurück.'
+        ].join('\n'),
+        review: [
+          'Analysiere meine Lebensbereiche und meine Routinen zusammen.',
+          '',
+          'LEBENSBEREICHE',
+          '{{lifeAreas}}',
+          '',
+          'ROUTINEN',
+          '{{routines}}',
+          '',
+          'AKTUELLE SITUATION',
+          '{{currentSituation}}',
+          '',
+          'Aufgabe:',
+          '- Benenne die 3 größten Spannungen.',
+          '- Benenne die 3 Routinen mit dem höchsten Hebel.',
+          '- Schlage maximal 5 konkrete Änderungen vor.',
+          '- Antworte knapp und strukturiert.'
+        ].join('\n'),
+        routineflow: [
+          'Wandle die folgenden Routinen in mein gewünschtes RoutineFlow-Zielformat um.',
+          '',
+          'ROUTINEN',
+          '{{routines}}',
+          '',
+          'Wenn Felder fehlen, ergänze sie minimalistisch.',
+          'Gib nur das Zielformat zurück.'
+        ].join('\n')
+      };
+    }
+
+    function makeLifeArea(name, rating, notes) {
+      return {
+        id: uid(),
+        name: name || '',
+        rating: clampNumber(rating, 1, 10, 5),
+        notes: notes || '',
+        desired: '',
+        updatedAt: new Date().toISOString()
+      };
+    }
+
+    function makeRoutine(data) {
+      data = data || {};
+      return {
+        id: data.id || uid(),
+        title: (data.title || '').trim(),
+        phase: (data.phase || '').trim(),
+        durationMinutes: clampNumber(data.durationMinutes, 0, 999, 0),
+        steps: normalizeStringArray(data.steps),
+        tags: normalizeStringArray(data.tags),
+        notes: (data.notes || '').trim(),
+        source: (data.source || '').trim(),
+        createdAt: data.createdAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+    }
+
+    function uid() {
+      return String(Date.now()) + String(Math.random()).slice(2, 8);
+    }
+
+    function today() {
+      return new Date().toISOString().split('T')[0];
+    }
+
+    function todayDE() {
+      return new Date().toLocaleDateString('de-DE');
+    }
+
+    function esc(s) {
+      if (s == null) return '';
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function toast(msg) {
+      var t = document.getElementById('toast');
+      if (!t) return;
+      t.textContent = msg;
+      t.classList.add('show');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(function() { t.classList.remove('show'); }, 2800);
+    }
+
+    function normalizeStringArray(value) {
+      if (!value) return [];
+      if (Array.isArray(value)) {
+        return value.map(function(x) { return String(x || '').trim(); }).filter(Boolean);
+      }
+      return String(value).split(/\n|,/).map(function(x) { return x.trim(); }).filter(Boolean);
+    }
+
+    function normalizeText(s) {
+      return String(s || '').toLowerCase().replace(/\s+/g, ' ').trim();
+    }
+
+    function normalizeSignatureForRoutine(r) {
+      return [normalizeText(r.title), normalizeText((r.steps || []).join(' | ')), normalizeText(r.phase)].join('||');
+    }
+
+    function normalizeAreaName(name) {
+      return normalizeText(name).replace(/&/g, 'und');
+    }
+
+    function clampNumber(value, min, max, fallback) {
+      var n = Number(value);
+      if (!isFinite(n)) return fallback;
+      if (n < min) return min;
+      if (n > max) return max;
+      return n;
+    }
+
+    function githubHeaders(token, includeContentType) {
+      var h = {
+        'Authorization': 'token ' + token,
+        'Accept': 'application/vnd.github+json'
+      };
+      if (includeContentType) h['Content-Type'] = 'application/json';
+      return h;
+    }
+
+    function gistGetToken() { return localStorage.getItem(GIST_TOKEN_KEY) || ''; }
+    function gistGetId() { return localStorage.getItem(GIST_ID_KEY) || ''; }
+    function gistGetAuto() { return localStorage.getItem(GIST_AUTO_KEY) === '1'; }
+
+    function setGistToken(v) { localStorage.setItem(GIST_TOKEN_KEY, (v || '').trim()); }
+    function setGistId(v) { localStorage.setItem(GIST_ID_KEY, (v || '').trim()); }
+    function setGistAuto(enabled) { localStorage.setItem(GIST_AUTO_KEY, enabled ? '1' : '0'); }
+
+    function save(skipAutoSync) {
+      S.meta.updatedAt = new Date().toISOString();
+      S._lastExported = new Date().toISOString();
+      try {
+        localStorage.setItem(LKEY, JSON.stringify(S));
+      } catch (e) {
+        console.error('Lokales Speichern fehlgeschlagen:', e);
+      }
+      renderAll();
+      if (!skipAutoSync) gistAutoSyncDebounced();
+    }
+
+    function load() {
+      try {
+        var d = localStorage.getItem(LKEY);
+        if (d) {
+          var parsed = JSON.parse(d);
+          S = mergeAppState(defaultState(), parsed);
+        } else {
+          S = defaultState();
+        }
+      } catch (e) {
+        console.error('Laden fehlgeschlagen:', e);
+        S = defaultState();
+      }
+      ensureDefaults();
+    }
+
+    function ensureDefaults() {
+      if (!S.meta) S.meta = { appName: 'Zufriedenheit & Struktur', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+      if (!S.context) S.context = defaultState().context;
+      if (!Array.isArray(S.routines)) S.routines = [];
+      if (!Array.isArray(S.lifeAreas) || !S.lifeAreas.length) S.lifeAreas = defaultLifeAreas();
+      if (!S.promptTemplates) S.promptTemplates = defaultPromptTemplates();
+      S.promptTemplates = Object.assign(defaultPromptTemplates(), S.promptTemplates || {});
+      if (!S.ui) S.ui = defaultState().ui;
+      S.ui = Object.assign(defaultState().ui, S.ui || {});
+      S.routines = S.routines.map(makeRoutine).filter(function(r) { return r.title; });
+      S.lifeAreas = S.lifeAreas.map(function(a) {
+        return {
+          id: a.id || uid(),
+          name: a.name || '',
+          rating: clampNumber(a.rating, 1, 10, 5),
+          notes: a.notes || '',
+          desired: a.desired || '',
+          updatedAt: a.updatedAt || new Date().toISOString()
+        };
+      }).filter(function(a) { return a.name; });
+      if (!S.lifeAreas.length) S.lifeAreas = defaultLifeAreas();
+    }
+
+    function gistBuildPayload() {
+      return {
+        version: APP_VERSION,
+        exported: new Date().toISOString(),
+        S: JSON.parse(JSON.stringify(S))
+      };
+    }
+
+    function gistAutoSyncDebounced() {
+      if (!gistGetAuto() || !gistGetToken() || !gistGetId()) return;
+      if (gistAutoSyncTimer) clearTimeout(gistAutoSyncTimer);
+      gistAutoSyncTimer = setTimeout(function() {
+        gistAutoSyncTimer = null;
+        gistPush(false, true);
+      }, 30000);
+    }
+
+    function openChoiceModal(title, text, actions) {
+      document.getElementById('choice-title').textContent = title || 'Aktion auswählen';
+      document.getElementById('choice-text').textContent = text || '';
+      var wrap = document.getElementById('choice-actions');
+      wrap.innerHTML = '';
+      choiceModalActions = actions || [];
+      choiceModalActions.forEach(function(action, idx) {
+        var btn = document.createElement('button');
+        btn.className = 'btn ' + (action.className || 'btn-m');
+        btn.textContent = action.label || ('Option ' + (idx + 1));
+        btn.onclick = function() {
+          closeChoiceModal();
+          if (typeof action.onClick === 'function') action.onClick();
+        };
+        wrap.appendChild(btn);
+      });
+      if (!choiceModalActions.length) {
+        var closeBtn = document.createElement('button');
+        closeBtn.className = 'btn btn-m';
+        closeBtn.textContent = 'Schließen';
+        closeBtn.onclick = closeChoiceModal;
+        wrap.appendChild(closeBtn);
+      }
+      document.getElementById('choice-modal').classList.remove('hidden');
+    }
+
+    function closeChoiceModal() {
+      document.getElementById('choice-modal').classList.add('hidden');
+      document.getElementById('choice-actions').innerHTML = '';
+      choiceModalActions = [];
+    }
+
+    async function fetchWithTimeoutRetry(url, options, timeoutMs, retries) {
+      timeoutMs = timeoutMs || 12000;
+      retries = retries || 0;
+      var lastErr = null;
+      for (var attempt = 0; attempt <= retries; attempt += 1) {
+        var controller = new AbortController();
+        var to = setTimeout(function() { controller.abort(); }, timeoutMs);
+        try {
+          var res = await fetch(url, Object.assign({}, options || {}, { signal: controller.signal }));
+          clearTimeout(to);
+          return res;
+        } catch (e) {
+          clearTimeout(to);
+          lastErr = e;
+        }
+      }
+      throw lastErr || new Error('Unbekannter Netzwerkfehler');
+    }
+
+    async function gistPush(force, silent) {
+      var token = gistGetToken();
+      var id = gistGetId();
+      if (!token || !id) {
+        if (!silent) toast('⚠️ Gist ist noch nicht konfiguriert.');
+        return;
+      }
+      if (force) {
+        return gistDoPush(token, id, silent);
+      }
+      try {
+        var res = await fetchWithTimeoutRetry('https://api.github.com/gists/' + id, {
+          headers: githubHeaders(token)
+        }, 12000, 1);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        var gist = await res.json();
+        var file = gist.files && (gist.files[GIST_FILENAME] || firstGistFile(gist.files));
+        if (!file || !file.content) {
+          return gistDoPush(token, id, silent);
+        }
+        var cloudData;
+        try {
+          cloudData = JSON.parse(file.content);
+        } catch (e) {
+          return gistDoPush(token, id, silent);
+        }
+        var cloudStamp = (cloudData && (cloudData.exported || (cloudData.S && cloudData.S._lastExported))) || '';
+        var localStamp = S._lastExported || '';
+        if (cloudStamp > localStamp) {
+          openChoiceModal(
+            'Cloud-Stand ist neuer',
+            'Der Gist enthält einen neueren Stand als dein lokaler Speicher. Du kannst trotzdem hochladen, erst herunterladen oder einen Merge ausführen.',
+            [
+              { label: 'Trotzdem hochladen', className: 'btn-d', onClick: function() { gistDoPush(token, id); } },
+              { label: 'Herunterladen', className: 'btn-s', onClick: function() { gistPull(false); } },
+              { label: 'Merge', className: 'btn-v', onClick: function() { mergeFromGist(); } }
+            ]
+          );
+          return;
+        }
+        return gistDoPush(token, id, silent);
+      } catch (e) {
+        console.error('Versionscheck für Gist fehlgeschlagen:', e);
+        return gistDoPush(token, id, silent);
+      }
+    }
+
+    async function gistDoPush(token, id, silent) {
+      try {
+        var res = await fetchWithTimeoutRetry('https://api.github.com/gists/' + id, {
+          method: 'PATCH',
+          headers: githubHeaders(token, true),
+          body: JSON.stringify({
+            files: {
+              [GIST_FILENAME]: {
+                content: JSON.stringify(gistBuildPayload(), null, 2)
+              }
+            }
+          })
+        }, 15000, 1);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        if (!silent) toast('☁️ Gist aktualisiert.');
+      } catch (e) {
+        console.error('Gist-Push fehlgeschlagen:', e);
+        if (!silent) openChoiceModal('Gist-Fehler', 'Cloud-Write fehlgeschlagen: ' + e.message, [
+          { label: 'Schließen', className: 'btn-m', onClick: function() {} }
+        ]);
+      }
+    }
+
+    async function gistPull(silent) {
+      var token = gistGetToken();
+      var id = gistGetId();
+      if (!token || !id) {
+        if (!silent) toast('⚠️ Gist ist noch nicht konfiguriert.');
+        return;
+      }
+      try {
+        var res = await fetchWithTimeoutRetry('https://api.github.com/gists/' + id, {
+          headers: githubHeaders(token)
+        }, 12000, 1);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        var gist = await res.json();
+        var file = gist.files && (gist.files[GIST_FILENAME] || firstGistFile(gist.files));
+        if (!file || !file.content) throw new Error('Datei ' + GIST_FILENAME + ' fehlt im Gist.');
+        var payload = JSON.parse(file.content);
+        var incoming = payload.S || payload;
+        S = mergeAppState(defaultState(), incoming);
+        ensureDefaults();
+        save(true);
+        if (!silent) toast('⬇️ Cloud-Stand geladen.');
+      } catch (e) {
+        console.error('Gist-Pull fehlgeschlagen:', e);
+        if (!silent) openChoiceModal('Ladefehler', 'Fehler beim Laden aus dem Gist: ' + e.message, [
+          { label: 'Schließen', className: 'btn-m', onClick: function() {} }
+        ]);
+      }
+    }
+
+    async function mergeFromGist() {
+      var token = gistGetToken();
+      var id = gistGetId();
+      if (!token || !id) {
+        toast('⚠️ Gist ist noch nicht konfiguriert.');
+        return;
+      }
+      var res, gist, file, remotePayload, remoteState, merged, writeRes;
+
+      try {
+        res = await fetchWithTimeoutRetry('https://api.github.com/gists/' + id, {
+          headers: githubHeaders(token)
+        }, 12000, 1);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        gist = await res.json();
+        file = gist.files && (gist.files[GIST_FILENAME] || firstGistFile(gist.files));
+        if (!file || !file.content) throw new Error('Datei ' + GIST_FILENAME + ' fehlt im Gist.');
+      } catch (e) {
+        console.error('[Merge] Schritt 1 – GET fehlgeschlagen:', e);
+        openChoiceModal('Merge-Fehler', 'Netzwerkfehler beim Abrufen des Gist (Schritt 1): ' + e.message, [
+          { label: 'Schließen', className: 'btn-m', onClick: function() {} }
+        ]);
+        return;
+      }
+
+      try {
+        remotePayload = JSON.parse(file.content);
+        remoteState = remotePayload.S || remotePayload;
+      } catch (e) {
+        console.error('[Merge] Schritt 2 – JSON-Parse fehlgeschlagen:', e);
+        openChoiceModal('Merge-Fehler', 'JSON-Fehler beim Lesen der Cloud-Datei (Schritt 2): ' + e.message, [
+          { label: 'Schließen', className: 'btn-m', onClick: function() {} }
+        ]);
+        return;
+      }
+
+      try {
+        merged = mergeAppState(S, remoteState);
+      } catch (e) {
+        console.error('[Merge] Schritt 3 – Lokaler Merge-Fehler:', e);
+        openChoiceModal('Merge-Fehler', 'Lokaler Merge fehlgeschlagen (Schritt 3): ' + e.message, [
+          { label: 'Schließen', className: 'btn-m', onClick: function() {} }
+        ]);
+        return;
+      }
+
+      try {
+        writeRes = await fetchWithTimeoutRetry('https://api.github.com/gists/' + id, {
+          method: 'PATCH',
+          headers: githubHeaders(token, true),
+          body: JSON.stringify({
+            files: {
+              [GIST_FILENAME]: {
+                content: JSON.stringify({ version: APP_VERSION, exported: new Date().toISOString(), S: merged }, null, 2)
+              }
+            }
+          })
+        }, 15000, 1);
+        if (!writeRes.ok) throw new Error('HTTP ' + writeRes.status);
+      } catch (e) {
+        console.error('[Merge] Schritt 4 – PATCH fehlgeschlagen:', e);
+        openChoiceModal('Merge-Fehler', 'Merge lokal OK, aber Cloud-Write fehlgeschlagen (Schritt 4): ' + e.message, [
+          { label: 'Schließen', className: 'btn-m', onClick: function() {} }
+        ]);
+        return;
+      }
+
+      S = mergeAppState(defaultState(), merged);
+      ensureDefaults();
+      save(true);
+      toast('⊕ Merge abgeschlossen.');
+    }
+
+    function firstGistFile(filesObj) {
+      var keys = Object.keys(filesObj || {});
+      return keys.length ? filesObj[keys[0]] : null;
+    }
+
+    async function gistSyncOnStart() {
+      var token = gistGetToken();
+      var id = gistGetId();
+      if (!token || !id) return;
+      try {
+        var res = await fetchWithTimeoutRetry('https://api.github.com/gists/' + id, {
+          headers: githubHeaders(token)
+        }, 12000, 0);
+        if (!res.ok) return;
+        var gist = await res.json();
+        var file = gist.files && (gist.files[GIST_FILENAME] || firstGistFile(gist.files));
+        if (!file || !file.content) return;
+        var payload = JSON.parse(file.content);
+        var remote = payload.S || payload;
+        var remoteStamp = payload.exported || (remote && remote._lastExported) || '';
+        var localStamp = S._lastExported || '';
+        if (remoteStamp > localStamp) {
+          S = mergeAppState(S, remote);
+          ensureDefaults();
+          save(true);
+          toast('☁️ Neuerer Cloud-Stand wurde eingespielt.');
+        }
+      } catch (e) {
+        console.warn('Stiller Cloud-Abgleich übersprungen:', e);
+      }
+    }
+
+    function mergeAppState(localState, remoteState) {
+      var base = JSON.parse(JSON.stringify(localState || defaultState()));
+      var remote = JSON.parse(JSON.stringify(remoteState || {}));
+      var merged = defaultState();
+
+      merged.meta = Object.assign({}, base.meta || {}, remote.meta || {});
+      merged.context = mergeContext(base.context || {}, remote.context || {});
+      merged.promptTemplates = Object.assign({}, defaultPromptTemplates(), remote.promptTemplates || {}, base.promptTemplates || {});
+      merged.lifeAreas = mergeLifeAreas(base.lifeAreas || [], remote.lifeAreas || []);
+      merged.routines = mergeRoutines(base.routines || [], remote.routines || []);
+      merged.ui = Object.assign({}, defaultState().ui, remote.ui || {}, base.ui || {});
+      merged._lastExported = [base._lastExported || '', remote._lastExported || ''].sort().pop() || '';
+      return merged;
+    }
+
+    function mergeContext(local, remote) {
+      return {
+        currentSituation: pickLonger(local.currentSituation, remote.currentSituation),
+        changes: pickLonger(local.changes, remote.changes),
+        goals: pickLonger(local.goals, remote.goals),
+        constraints: pickLonger(local.constraints, remote.constraints),
+        notes: pickLonger(local.notes, remote.notes)
+      };
+    }
+
+    function pickLonger(a, b) {
+      a = a || '';
+      b = b || '';
+      if (!a) return b;
+      if (!b) return a;
+      return a.length >= b.length ? a : b;
+    }
+
+    function mergeLifeAreas(localAreas, remoteAreas) {
+      var out = [];
+      var map = {};
+      localAreas.concat(remoteAreas).forEach(function(area) {
+        if (!area || !area.name) return;
+        var key = normalizeAreaName(area.name);
+        if (!map[key]) {
+          map[key] = {
+            id: area.id || uid(),
+            name: area.name,
+            rating: clampNumber(area.rating, 1, 10, 5),
+            notes: area.notes || '',
+            desired: area.desired || '',
+            updatedAt: area.updatedAt || new Date().toISOString()
+          };
+          return;
+        }
+        var existing = map[key];
+        var currentStamp = existing.updatedAt || '';
+        var incomingStamp = area.updatedAt || '';
+        if (incomingStamp >= currentStamp) {
+          existing.rating = clampNumber(area.rating, 1, 10, existing.rating);
+          existing.notes = pickLonger(existing.notes, area.notes || '');
+          existing.desired = pickLonger(existing.desired, area.desired || '');
+          existing.updatedAt = incomingStamp || currentStamp;
+          existing.name = area.name || existing.name;
+        }
+      });
+      Object.keys(map).forEach(function(k) { out.push(map[k]); });
+      out.sort(function(a, b) { return a.name.localeCompare(b.name, 'de'); });
+      return out;
+    }
+
+    function mergeRoutines(localRoutines, remoteRoutines) {
+      var byId = {};
+      var bySig = {};
+      function absorb(list) {
+        list.forEach(function(item) {
+          var r = makeRoutine(item);
+          if (!r.title) return;
+          var sig = normalizeSignatureForRoutine(r);
+          var existing = null;
+          if (r.id && byId[r.id]) existing = byId[r.id];
+          else if (sig && bySig[sig]) existing = bySig[sig];
+          if (!existing) {
+            byId[r.id] = r;
+            if (sig) bySig[sig] = r;
+            return;
+          }
+          var existingStamp = existing.updatedAt || existing.createdAt || '';
+          var incomingStamp = r.updatedAt || r.createdAt || '';
+          if (incomingStamp >= existingStamp) {
+            existing.title = r.title || existing.title;
+            existing.phase = r.phase || existing.phase;
+            existing.durationMinutes = r.durationMinutes || existing.durationMinutes;
+            existing.steps = r.steps.length ? r.steps : existing.steps;
+            existing.tags = r.tags.length ? Array.from(new Set(existing.tags.concat(r.tags))) : existing.tags;
+            existing.notes = pickLonger(existing.notes, r.notes || '');
+            existing.source = pickLonger(existing.source, r.source || '');
+            existing.updatedAt = incomingStamp || existingStamp;
+          } else {
+            existing.tags = Array.from(new Set(existing.tags.concat(r.tags || [])));
+            if (!existing.notes && r.notes) existing.notes = r.notes;
+            if (!existing.source && r.source) existing.source = r.source;
+          }
+        });
+      }
+      absorb(localRoutines || []);
+      absorb(remoteRoutines || []);
+      var out = Object.keys(byId).map(function(id) { return byId[id]; });
+      out.sort(function(a, b) {
+        return (a.phase || '').localeCompare(b.phase || '', 'de') || (a.title || '').localeCompare(b.title || '', 'de');
+      });
+      return out;
+    }
+
+    function renderAll() {
+      renderTabs();
+      renderSidebarNav();
+      renderDashboard();
+      renderImportPanel();
+      renderRoutinesPanel();
+      renderLifePanel();
+      renderPromptsPanel();
+      renderSyncPanel();
+      highlightActiveTab();
+      updateManifest();
+    }
+
+    function renderTabs() {
+      var nav = document.getElementById('tab-row');
+      nav.innerHTML = TAB_DEFS.map(function(tab) {
+        return '<button class="tab-btn' + (currentTab === tab.id ? ' active' : '') + '" onclick="switchTab(\'' + escJs(tab.id) + '\')">' + esc(tab.icon + ' ' + tab.label) + '</button>';
+      }).join('');
+    }
+
+    function renderSidebarNav() {
+      var sidebar = document.getElementById('sidebar');
+      sidebar.innerHTML = '<div class="sidebar-head"><div class="mono">Zufriedenheit & Struktur</div><div class="helper">Mobile Navigation</div></div>' +
+        TAB_DEFS.map(function(tab) {
+          return '<button class="sidebar-nav-btn' + (currentTab === tab.id ? ' active' : '') + '" onclick="sidebarNav(\'' + escJs(tab.id) + '\')">' +
+                 '<span>' + esc(tab.icon) + '</span><span>' + esc(tab.label) + '</span></button>';
+        }).join('') +
+        '<div class="divider"></div>' +
+        '<div style="padding:0 20px 12px;" class="helper">Stand: ' + esc(todayDE()) + '</div>';
+    }
+
+    function sidebarNav(tabId) {
+      closeSidebar();
+      switchTab(tabId);
+    }
+
+    function openSidebar() {
+      renderSidebarNav();
+      document.getElementById('sidebar').style.transform = 'translateX(0)';
+      document.getElementById('sidebar-overlay').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSidebar() {
+      document.getElementById('sidebar').style.transform = 'translateX(-100%)';
+      document.getElementById('sidebar-overlay').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    function switchTab(tabId) {
+      currentTab = tabId;
+      TAB_DEFS.forEach(function(tab) {
+        var panel = document.getElementById('panel-' + tab.id);
+        if (panel) panel.classList.toggle('active', tab.id === currentTab);
+      });
+      renderTabs();
+      renderSidebarNav();
+      highlightActiveTab();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function highlightActiveTab() {
+      TAB_DEFS.forEach(function(tab) {
+        var btn = document.querySelector('.tab-btn[onclick="switchTab(\'' + tab.id + '\')"]');
+        if (btn) btn.classList.toggle('active', tab.id === currentTab);
+      });
+    }
+
+    function renderDashboard() {
+      var panel = document.getElementById('panel-dashboard');
+      var stats = getStats();
+      panel.innerHTML = [
+        '<div class="kpis">',
+          kpiCard('Routinen', stats.routineCount, stats.routineHint),
+          kpiCard('Ø Zufriedenheit', stats.avgRating, 'Mittelwert über alle Lebensbereiche'),
+          kpiCard('Niedrigster Bereich', stats.lowestArea, 'Hilft beim Priorisieren'),
+          kpiCard('Gesamtdauer', stats.totalMinutes + ' min', 'Summe aller Routine-Minuten'),
+        '</div>',
+        '<div class="notice">Diese erste Version ist darauf optimiert, aus Screenshots oder ChatGPT-JSON schnell ein bearbeitbares Routinen-System zu machen. Die App speichert lokal, kann mit Gist synchronisieren und erzeugt daraus wieder Prompts für die nächste Überarbeitung.</div>',
+        '<div class="split">',
+          '<div class="qs">',
+            '<div class="qh">Aktuelle Lage</div>',
+            '<label>Aktuelle Lebensumstände</label>',
+            '<textarea id="ctx-currentSituation" placeholder="Was ist gerade realistisch? Was ist neu?">' + esc(S.context.currentSituation) + '</textarea>',
+            '<label>Veränderungen seit der letzten Routine-Version</label>',
+            '<textarea id="ctx-changes" placeholder="z. B. weniger Energie, neue Arbeitszeiten, mehr Pendeln, andere Prioritäten">' + esc(S.context.changes) + '</textarea>',
+            '<label>Wichtige Ziele</label>',
+            '<textarea id="ctx-goals" placeholder="Was sollen die Routinen aktuell leisten?">' + esc(S.context.goals) + '</textarea>',
+            '<label>Einschränkungen / Reibung</label>',
+            '<textarea id="ctx-constraints" placeholder="Zeit, Energie, Raum, Geräte, Belastung ...">' + esc(S.context.constraints) + '</textarea>',
+            '<label>Weitere Notizen</label>',
+            '<textarea id="ctx-notes" placeholder="Freitext für alles, was in Prompts einfließen soll">' + esc(S.context.notes) + '</textarea>',
+            '<div class="toolbar">',
+              '<button class="btn btn-v" onclick="saveContext()">Kontext speichern</button>',
+              '<button class="btn btn-q" onclick="switchTab(\'prompts\')">Zu den Prompts</button>',
+            '</div>',
+          '</div>',
+          '<div class="qs">',
+            '<div class="qh">Wo es gerade am meisten zieht</div>',
+            weakestAreasMarkup(),
+            '<div class="notice info">Tipp: Je klarer du hier Engpässe benennst, desto besser werden die Anpassungs-Prompts. Die App nutzt diese Angaben, um Routinen nicht nur schöner, sondern realistischer zu machen.</div>',
+            '<div class="small-grid">',
+              '<button class="btn btn-s" onclick="switchTab(\'import\')">JSON importieren</button>',
+              '<button class="btn btn-m" onclick="switchTab(\'routines\')">Routinen prüfen</button>',
+              '<button class="btn btn-t" onclick="generateAllPrompts(); switchTab(\'prompts\');">Alles generieren</button>',
+              '<button class="btn btn-v" onclick="createDefaultStarterRoutine()">Starter-Routine</button>',
+            '</div>',
+          '</div>',
+        '</div>'
+      ].join('');
+    }
+
+    function kpiCard(label, value, hint) {
+      return '<div class="kpi"><div class="label">' + esc(label) + '</div><div class="value">' + esc(String(value)) + '</div><div class="helper">' + esc(hint || '') + '</div></div>';
+    }
+
+    function weakestAreasMarkup() {
+      var sorted = S.lifeAreas.slice().sort(function(a, b) { return a.rating - b.rating; }).slice(0, 4);
+      if (!sorted.length) return '<div class="empty">Noch keine Lebensbereiche vorhanden.</div>';
+      return '<div class="list">' + sorted.map(function(area) {
+        return '<div class="card"><div class="card-head"><div><h3 class="card-title">' + esc(area.name) + '</h3><div class="meta"><span>Rating: <span class="mono">' + esc(String(area.rating)) + '/10</span></span></div></div></div>' +
+               '<div class="helper">' + esc(area.notes || 'Keine Notiz') + '</div>' +
+               (area.desired ? '<div class="helper"><strong>Ziel:</strong> ' + esc(area.desired) + '</div>' : '') +
+               '</div>';
+      }).join('') + '</div>';
+    }
+
+    function getStats() {
+      var avg = 0;
+      if (S.lifeAreas.length) {
+        avg = S.lifeAreas.reduce(function(sum, area) { return sum + Number(area.rating || 0); }, 0) / S.lifeAreas.length;
+      }
+      var lowest = S.lifeAreas.slice().sort(function(a, b) { return a.rating - b.rating; })[0];
+      var totalMinutes = S.routines.reduce(function(sum, r) { return sum + Number(r.durationMinutes || 0); }, 0);
+      return {
+        routineCount: S.routines.length,
+        routineHint: S.routines.length ? 'Erfasste Routinen im System' : 'Noch keine Routinen importiert',
+        avgRating: S.lifeAreas.length ? avg.toFixed(1) + '/10' : '–',
+        lowestArea: lowest ? lowest.name : '–',
+        totalMinutes: totalMinutes
+      };
+    }
+
+    function saveContext() {
+      S.context.currentSituation = valueOf('ctx-currentSituation');
+      S.context.changes = valueOf('ctx-changes');
+      S.context.goals = valueOf('ctx-goals');
+      S.context.constraints = valueOf('ctx-constraints');
+      S.context.notes = valueOf('ctx-notes');
+      save();
+      toast('Kontext gespeichert.');
+    }
+
+    function renderImportPanel() {
+      var panel = document.getElementById('panel-import');
+      panel.innerHTML = [
+        '<div class="split">',
+          '<div class="qs">',
+            '<div class="qh">JSON einfügen und importieren</div>',
+            '<label>JSON aus ChatGPT / Claude</label>',
+            '<textarea id="import-json" placeholder="Hier das JSON aus dem KI-Chat einfügen">' + esc(S.ui.importText) + '</textarea>',
+            '<div class="helper">Erkannt werden entweder <span class="mono">{ routines: [...] }</span>, ein komplettes App-Exportobjekt oder direkt ein Array von Routinen.</div>',
+            '<div class="toolbar">',
+              '<button class="btn btn-v" onclick="importJsonFromTextarea()">JSON importieren</button>',
+              '<button class="btn btn-s" onclick="loadImportExample()">Beispiel laden</button>',
+              '<button class="btn btn-m" onclick="clearImportText()">Leeren</button>',
+            '</div>',
+            (S.ui.lastImportReport ? '<div class="notice success" style="margin-top:12px;">' + esc(S.ui.lastImportReport) + '</div>' : ''),
+          '</div>',
+          '<div class="qs">',
+            '<div class="qh">Erwartetes Schema</div>',
+            '<label>Bearbeitbares JSON-Schema</label>',
+            '<textarea id="template-jsonSchema" class="mono" style="min-height:320px;">' + esc(S.promptTemplates.jsonSchema) + '</textarea>',
+            '<div class="toolbar">',
+              '<button class="btn btn-q" onclick="savePromptTemplates()">Schema speichern</button>',
+              '<button class="btn btn-t" onclick="copyText(valueOf(\'template-jsonSchema\'))">Schema kopieren</button>',
+            '</div>',
+          '</div>',
+        '</div>',
+        '<div class="qs">',
+          '<div class="qh">Import-Prompt sofort erzeugen</div>',
+          '<div class="notice info">Wenn du Screenshots aus RoutineFlow an ChatGPT schicken willst, kannst du hier sofort den passenden Prompt generieren. Das spart dir jedes Mal neues Basteln.</div>',
+          '<div class="toolbar">',
+            '<button class="btn btn-q" onclick="generateImportPrompt(); switchTab(\'prompts\');">Import-Prompt erzeugen</button>',
+          '</div>',
+        '</div>'
+      ].join('');
+    }
+
+    function clearImportText() {
+      S.ui.importText = '';
+      save(true);
+      renderImportPanel();
+    }
+
+    function loadImportExample() {
+      var example = {
+        routines: [
+          {
+            title: 'Morgenstart kompakt',
+            phase: 'Morgen',
+            durationMinutes: 18,
+            steps: ['Wasser trinken', 'Fenster öffnen', '5 Minuten schreiben', 'Tagesfokus notieren'],
+            tags: ['morgen', 'reset'],
+            notes: 'Für Tage mit wenig Energie.',
+            source: 'Beispieldaten'
+          },
+          {
+            title: 'Abendabschluss leicht',
+            phase: 'Abend',
+            durationMinutes: 12,
+            steps: ['Geschirr sammeln', 'Morgenkleidung bereitlegen', '1 Satz Tagesrückblick'],
+            tags: ['abend'],
+            notes: 'Ohne Perfektionismus.',
+            source: 'Beispieldaten'
+          }
+        ],
+        lifeAreas: [
+          { name: 'Struktur & Alltag', rating: 5, notes: 'Morgen oft stockend.' },
+          { name: 'Erholung', rating: 4, notes: 'Zu wenig Puffer.' }
+        ],
+        context: {
+          currentSituation: 'Ich brauche einfache Routinen mit wenig Reibung.',
+          changes: 'Weniger Energie als früher.',
+          goals: 'Mehr Verlässlichkeit.',
+          constraints: 'Begrenzte Zeit am Morgen.'
+        }
+      };
+      S.ui.importText = JSON.stringify(example, null, 2);
+      save(true);
+      renderImportPanel();
+      toast('Beispiel eingefügt.');
+    }
+
+    function importJsonFromTextarea() {
+      var txt = valueOf('import-json');
+      S.ui.importText = txt;
+      if (!txt.trim()) {
+        toast('Kein JSON eingefügt.');
+        return;
+      }
+      var parsed;
+      try {
+        parsed = JSON.parse(txt);
+      } catch (e) {
+        openChoiceModal('Import-Fehler', 'Das JSON konnte nicht gelesen werden: ' + e.message, [
+          { label: 'Schließen', className: 'btn-m', onClick: function() {} }
+        ]);
+        return;
+      }
+      var report = importPayload(parsed);
+      S.ui.lastImportReport = report;
+      save();
+      switchTab('routines');
+    }
+
+    function importPayload(payload) {
+      var routinesBefore = S.routines.length;
+      var areasBefore = S.lifeAreas.length;
+      var normalized = normalizeImportedPayload(payload);
+      S.routines = mergeRoutines(S.routines, normalized.routines || []);
+      S.lifeAreas = mergeLifeAreas(S.lifeAreas, normalized.lifeAreas || []);
+      if (normalized.context) S.context = mergeContext(S.context, normalized.context);
+      var addedRoutines = S.routines.length - routinesBefore;
+      var addedAreas = S.lifeAreas.length - areasBefore;
+      return addedRoutines + ' neue Routinen importiert, ' + addedAreas + ' neue Lebensbereiche ergänzt.';
+    }
+
+    function normalizeImportedPayload(payload) {
+      if (Array.isArray(payload)) {
+        return { routines: payload.map(makeRoutine) };
+      }
+      if (payload && payload.S) {
+        payload = payload.S;
+      }
+      var out = { routines: [], lifeAreas: [], context: null };
+      if (payload && Array.isArray(payload.routines)) out.routines = payload.routines.map(makeRoutine);
+      else if (payload && Array.isArray(payload.items)) out.routines = payload.items.map(makeRoutine);
+      if (payload && Array.isArray(payload.lifeAreas)) out.lifeAreas = payload.lifeAreas.map(function(area) {
+        return {
+          id: area.id || uid(),
+          name: area.name || '',
+          rating: clampNumber(area.rating, 1, 10, 5),
+          notes: area.notes || '',
+          desired: area.desired || '',
+          updatedAt: area.updatedAt || new Date().toISOString()
+        };
+      }).filter(function(a) { return a.name; });
+      if (payload && payload.context) out.context = payload.context;
+      return out;
+    }
+
+    function renderRoutinesPanel() {
+      var panel = document.getElementById('panel-routines');
+      var selected = getActiveRoutine();
+      var search = S.ui.search || '';
+      var filtered = S.routines.filter(function(r) {
+        var hay = [r.title, r.phase, (r.tags || []).join(' '), (r.steps || []).join(' ')].join(' ').toLowerCase();
+        return !search || hay.indexOf(search.toLowerCase()) !== -1;
+      });
+      panel.innerHTML = [
+        '<div class="split">',
+          '<div class="qs">',
+            '<div class="qh">Routine anlegen oder bearbeiten</div>',
+            '<input type="hidden" id="routine-id" value="' + esc(selected ? selected.id : '') + '">',
+            '<label>Titel</label>',
+            '<input id="routine-title" value="' + esc(selected ? selected.title : '') + '" placeholder="z. B. Morgenstart kompakt">',
+            '<div class="row">',
+              '<div class="grow"><label>Phase / Kontext</label><input id="routine-phase" value="' + esc(selected ? selected.phase : '') + '" placeholder="Morgen / Abend / Reset / Arbeit"></div>',
+              '<div class="grow"><label>Dauer (Minuten)</label><input id="routine-duration" type="number" min="0" value="' + esc(selected ? String(selected.durationMinutes) : '0') + '"></div>',
+            '</div>',
+            '<label>Tags (kommagetrennt)</label>',
+            '<input id="routine-tags" value="' + esc(selected ? (selected.tags || []).join(', ') : '') + '" placeholder="morgen, reset, fokus">',
+            '<label>Schritte (eine Zeile = ein Schritt)</label>',
+            '<textarea id="routine-steps" placeholder="Jede Zeile ein Schritt">' + esc(selected ? (selected.steps || []).join('\n') : '') + '</textarea>',
+            '<label>Notizen</label>',
+            '<textarea id="routine-notes" placeholder="Wozu diese Routine dient, was daran heikel ist, was reduziert werden soll">' + esc(selected ? selected.notes : '') + '</textarea>',
+            '<label>Quelle</label>',
+            '<input id="routine-source" value="' + esc(selected ? selected.source : '') + '" placeholder="RoutineFlow Screenshot / ChatGPT / manuell">',
+            '<div class="toolbar">',
+              '<button class="btn btn-v" onclick="saveRoutineForm()">' + (selected ? 'Routine aktualisieren' : 'Routine speichern') + '</button>',
+              '<button class="btn btn-m" onclick="resetRoutineForm()">Formular leeren</button>',
+            '</div>',
+          '</div>',
+          '<div class="qs">',
+            '<div class="qh">Routinen durchsuchen</div>',
+            '<label>Suche</label>',
+            '<input id="routine-search" value="' + esc(search) + '" placeholder="Titel, Phase, Tag oder Schritt" oninput="updateRoutineSearch(this.value)">',
+            '<div class="helper">Gefundene Routinen: <span class="mono">' + filtered.length + '</span></div>',
+            '<div class="toolbar">',
+              '<button class="btn btn-q" onclick="generateRoutineflowPromptForAll(); switchTab(\'prompts\');">RoutineFlow-Prompt für alle</button>',
+              '<button class="btn btn-s" onclick="exportRoutinesAsDraft()">RoutineFlow-Entwurf</button>',
+            '</div>',
+            '<div id="routine-export-box">' + (S.ui.exportText ? '<pre>' + esc(S.ui.exportText) + '</pre>' : '<div class="empty">Hier erscheint auf Wunsch ein RoutineFlow-Arbeitsformat.</div>') + '</div>',
+          '</div>',
+        '</div>',
+        '<div class="qs">',
+          '<div class="qh">Gespeicherte Routinen</div>',
+          (filtered.length ? '<div class="list">' + filtered.map(renderRoutineCard).join('') + '</div>' : '<div class="empty">Noch keine Routinen vorhanden. Importiere JSON oder lege die erste Routine manuell an.</div>'),
+        '</div>'
+      ].join('');
+    }
+
+    function updateRoutineSearch(v) {
+      S.ui.search = v || '';
+      save(true);
+      renderRoutinesPanel();
+    }
+
+    function getActiveRoutine() {
+      if (!S.ui.activeRoutineId) return null;
+      return S.routines.find(function(r) { return r.id === S.ui.activeRoutineId; }) || null;
+    }
+
+    function resetRoutineForm() {
+      S.ui.activeRoutineId = '';
+      save(true);
+      renderRoutinesPanel();
+    }
+
+    function createDefaultStarterRoutine() {
+      var starter = makeRoutine({
+        title: 'Mini-Reset bei Überforderung',
+        phase: 'Reset',
+        durationMinutes: 10,
+        steps: ['2 Minuten sitzen und atmen', '1 Minute Lage benennen', '3 nächste Mikroschritte notieren', 'Mit Schritt 1 anfangen'],
+        tags: ['reset', 'leicht'],
+        notes: 'Sehr kleine Standardroutine für schlechte Tage.',
+        source: 'Starter'
+      });
+      S.routines = mergeRoutines(S.routines, [starter]);
+      save();
+      switchTab('routines');
+      toast('Starter-Routine angelegt.');
+    }
+
+    function saveRoutineForm() {
+      var id = valueOf('routine-id');
+      var routine = makeRoutine({
+        id: id || uid(),
+        title: valueOf('routine-title'),
+        phase: valueOf('routine-phase'),
+        durationMinutes: valueOf('routine-duration'),
+        steps: valueOf('routine-steps').split('\n').map(function(x) { return x.trim(); }).filter(Boolean),
+        tags: valueOf('routine-tags').split(',').map(function(x) { return x.trim(); }).filter(Boolean),
+        notes: valueOf('routine-notes'),
+        source: valueOf('routine-source')
+      });
+      if (!routine.title) {
+        toast('Bitte gib der Routine zuerst einen Titel.');
+        return;
+      }
+      var existingIdx = S.routines.findIndex(function(r) { return r.id === routine.id; });
+      if (existingIdx >= 0) S.routines[existingIdx] = routine;
+      else S.routines.unshift(routine);
+      S.routines = mergeRoutines(S.routines, []);
+      S.ui.activeRoutineId = routine.id;
+      save();
+      toast('Routine gespeichert.');
+    }
+
+    function editRoutine(id) {
+      S.ui.activeRoutineId = id;
+      save(true);
+      renderRoutinesPanel();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function deleteRoutine(id) {
+      var routine = S.routines.find(function(r) { return r.id === id; });
+      if (!routine) return;
+      openChoiceModal('Routine löschen', 'Soll die Routine "' + routine.title + '" wirklich gelöscht werden?', [
+        { label: 'Löschen', className: 'btn-d', onClick: function() {
+          S.routines = S.routines.filter(function(r) { return r.id !== id; });
+          if (S.ui.activeRoutineId === id) S.ui.activeRoutineId = '';
+          save();
+          toast('Routine gelöscht.');
+        } },
+        { label: 'Abbrechen', className: 'btn-m', onClick: function() {} }
+      ]);
+    }
+
+    function renderRoutineCard(routine) {
+      return [
+        '<div class="card">',
+          '<div class="card-head">',
+            '<div>',
+              '<h3 class="card-title">' + esc(routine.title) + '</h3>',
+              '<div class="meta">',
+                (routine.phase ? '<span>Phase: ' + esc(routine.phase) + '</span>' : ''),
+                '<span>Dauer: ' + esc(String(routine.durationMinutes || 0)) + ' min</span>',
+                (routine.source ? '<span>Quelle: ' + esc(routine.source) + '</span>' : ''),
+              '</div>',
+            '</div>',
+            '<div class="toolbar" style="margin-top:0;">',
+              '<button class="btn btn-m btn-sm" onclick="editRoutine(\'' + escJs(routine.id) + '\')">Bearbeiten</button>',
+              '<button class="btn btn-q btn-sm" onclick="generateSingleRoutinePrompt(\'' + escJs(routine.id) + '\'); switchTab(\'prompts\');">Anpassungs-Prompt</button>',
+              '<button class="btn btn-s btn-sm" onclick="copyText(buildRoutineflowDraftForRoutine(\'' + escJs(routine.id) + '\'))">RoutineFlow-Entwurf</button>',
+              '<button class="btn btn-d btn-sm" onclick="deleteRoutine(\'' + escJs(routine.id) + '\')">Löschen</button>',
+            '</div>',
+          '</div>',
+          ((routine.tags || []).length ? '<div class="chips">' + routine.tags.map(function(tag) { return '<span class="chip">#' + esc(tag) + '</span>'; }).join('') + '</div>' : ''),
+          ((routine.notes) ? '<div class="helper" style="margin-top:10px;">' + esc(routine.notes) + '</div>' : ''),
+          ((routine.steps || []).length ? '<ol class="steps">' + routine.steps.map(function(step) { return '<li>' + esc(step) + '</li>'; }).join('') + '</ol>' : ''),
+        '</div>'
+      ].join('');
+    }
+
+    function renderLifePanel() {
+      var panel = document.getElementById('panel-life');
+      panel.innerHTML = [
+        '<div class="qs">',
+          '<div class="qh">Lebensbereiche bewerten</div>',
+          '<div class="notice info">Diese Werte gehen in deine Analyse- und Überarbeitungs-Prompts ein. Niedrige Werte sind ein guter Hinweis darauf, welche Routinen du als erstes vereinfachen oder neu bauen solltest.</div>',
+          '<div class="toolbar">',
+            '<button class="btn btn-v" onclick="addLifeArea()">Lebensbereich hinzufügen</button>',
+            '<button class="btn btn-q" onclick="switchTab(\'prompts\'); generateReviewPrompt();">Analyse-Prompt erzeugen</button>',
+          '</div>',
+        '</div>',
+        '<div class="list">' + S.lifeAreas.map(renderLifeAreaCard).join('') + '</div>'
+      ].join('');
+    }
+
+    function renderLifeAreaCard(area) {
+      return [
+        '<div class="card">',
+          '<div class="card-head">',
+            '<div class="grow">',
+              '<label>Name</label>',
+              '<input value="' + esc(area.name) + '" onchange="updateLifeAreaField(\'' + escJs(area.id) + '\', \'name\', this.value)">',
+            '</div>',
+            '<div class="toolbar" style="margin-top:20px;">',
+              '<button class="btn btn-d btn-sm" onclick="deleteLifeArea(\'' + escJs(area.id) + '\')">Löschen</button>',
+            '</div>',
+          '</div>',
+          '<div class="rating-row">',
+            '<div>',
+              '<label>Bewertung (1–10)</label>',
+              '<input type="range" min="1" max="10" step="1" value="' + esc(String(area.rating)) + '" oninput="updateLifeAreaField(\'' + escJs(area.id) + '\', \'rating\', this.value, true)">',
+            '</div>',
+            '<div class="rating-value">' + esc(String(area.rating)) + '/10</div>',
+          '</div>',
+          '<label>Warum dieser Wert?</label>',
+          '<textarea onchange="updateLifeAreaField(\'' + escJs(area.id) + '\', \'notes\', this.value)">' + esc(area.notes || '') + '</textarea>',
+          '<label>Woran würdest du Verbesserung merken?</label>',
+          '<textarea onchange="updateLifeAreaField(\'' + escJs(area.id) + '\', \'desired\', this.value)">' + esc(area.desired || '') + '</textarea>',
+        '</div>'
+      ].join('');
+    }
+
+    function addLifeArea() {
+      S.lifeAreas.push(makeLifeArea('Neuer Bereich', 5, ''));
+      save();
+      toast('Lebensbereich ergänzt.');
+    }
+
+    function updateLifeAreaField(id, field, value, instant) {
+      var area = S.lifeAreas.find(function(a) { return a.id === id; });
+      if (!area) return;
+      if (field === 'rating') area.rating = clampNumber(value, 1, 10, area.rating);
+      else area[field] = value;
+      area.updatedAt = new Date().toISOString();
+      save(true);
+      if (instant) renderLifePanel(); else renderAll();
+    }
+
+    function deleteLifeArea(id) {
+      var area = S.lifeAreas.find(function(a) { return a.id === id; });
+      if (!area) return;
+      openChoiceModal('Lebensbereich löschen', 'Soll der Bereich "' + area.name + '" wirklich gelöscht werden?', [
+        { label: 'Löschen', className: 'btn-d', onClick: function() { S.lifeAreas = S.lifeAreas.filter(function(a) { return a.id !== id; }); save(); } },
+        { label: 'Abbrechen', className: 'btn-m', onClick: function() {} }
+      ]);
+    }
+
+    function renderPromptsPanel() {
+      var panel = document.getElementById('panel-prompts');
+      panel.innerHTML = [
+        '<div class="split">',
+          '<div class="qs">',
+            '<div class="qh">Prompt-Vorlagen</div>',
+            '<label>Screenshot → JSON</label>',
+            '<textarea id="template-screenshotToJson">' + esc(S.promptTemplates.screenshotToJson) + '</textarea>',
+            '<label>Einzelroutine überarbeiten</label>',
+            '<textarea id="template-refineSingle">' + esc(S.promptTemplates.refineSingle) + '</textarea>',
+            '<label>Alle Routinen überarbeiten</label>',
+            '<textarea id="template-refineAll">' + esc(S.promptTemplates.refineAll) + '</textarea>',
+            '<label>Lebensbereiche + Routinen analysieren</label>',
+            '<textarea id="template-review">' + esc(S.promptTemplates.review) + '</textarea>',
+            '<label>RoutineFlow-Zielformat</label>',
+            '<textarea id="template-routineflow">' + esc(S.promptTemplates.routineflow) + '</textarea>',
+            '<div class="toolbar">',
+              '<button class="btn btn-v" onclick="savePromptTemplates()">Vorlagen speichern</button>',
+              '<button class="btn btn-t" onclick="generateAllPrompts()">Alles generieren</button>',
+            '</div>',
+          '</div>',
+          '<div class="qs">',
+            '<div class="qh">Generierte Prompts</div>',
+            '<label>Import-Prompt</label>',
+            '<textarea id="generated-importPrompt" class="mono" readonly>' + esc(S.ui.generatedImportPrompt) + '</textarea>',
+            '<div class="toolbar"><button class="btn btn-q btn-sm" onclick="generateImportPrompt()">Neu erzeugen</button><button class="btn btn-s btn-sm" onclick="copyText(valueOf(\'generated-importPrompt\'))">Kopieren</button></div>',
+            '<label>Prompt für alle Routinen</label>',
+            '<textarea id="generated-refineAllPrompt" class="mono" readonly>' + esc(S.ui.generatedRefineAllPrompt) + '</textarea>',
+            '<div class="toolbar"><button class="btn btn-q btn-sm" onclick="generateRefineAllPrompt()">Neu erzeugen</button><button class="btn btn-s btn-sm" onclick="copyText(valueOf(\'generated-refineAllPrompt\'))">Kopieren</button></div>',
+            '<label>Analyse-Prompt</label>',
+            '<textarea id="generated-reviewPrompt" class="mono" readonly>' + esc(S.ui.generatedReviewPrompt) + '</textarea>',
+            '<div class="toolbar"><button class="btn btn-q btn-sm" onclick="generateReviewPrompt()">Neu erzeugen</button><button class="btn btn-s btn-sm" onclick="copyText(valueOf(\'generated-reviewPrompt\'))">Kopieren</button></div>',
+            '<label>RoutineFlow-Prompt</label>',
+            '<textarea id="generated-routineflowPrompt" class="mono" readonly>' + esc(S.ui.generatedRoutineflowPrompt) + '</textarea>',
+            '<div class="toolbar"><button class="btn btn-q btn-sm" onclick="generateRoutineflowPromptForAll()">Neu erzeugen</button><button class="btn btn-s btn-sm" onclick="copyText(valueOf(\'generated-routineflowPrompt\'))">Kopieren</button></div>',
+          '</div>',
+        '</div>'
+      ].join('');
+    }
+
+    function savePromptTemplates() {
+      S.promptTemplates.jsonSchema = valueMaybe('template-jsonSchema', S.promptTemplates.jsonSchema);
+      S.promptTemplates.screenshotToJson = valueMaybe('template-screenshotToJson', S.promptTemplates.screenshotToJson);
+      S.promptTemplates.refineSingle = valueMaybe('template-refineSingle', S.promptTemplates.refineSingle);
+      S.promptTemplates.refineAll = valueMaybe('template-refineAll', S.promptTemplates.refineAll);
+      S.promptTemplates.review = valueMaybe('template-review', S.promptTemplates.review);
+      S.promptTemplates.routineflow = valueMaybe('template-routineflow', S.promptTemplates.routineflow);
+      save();
+      toast('Prompt-Vorlagen gespeichert.');
+    }
+
+    function buildLifeAreasText() {
+      return S.lifeAreas.slice().sort(function(a, b) { return a.rating - b.rating; }).map(function(area) {
+        return '- ' + area.name + ' (' + area.rating + '/10): ' + (area.notes || 'ohne Notiz') + (area.desired ? ' | Ziel: ' + area.desired : '');
+      }).join('\n');
+    }
+
+    function buildRoutinesJsonText(routines) {
+      return JSON.stringify((routines || S.routines).map(function(r) {
+        return {
+          title: r.title,
+          phase: r.phase,
+          durationMinutes: r.durationMinutes,
+          steps: r.steps,
+          tags: r.tags,
+          notes: r.notes,
+          source: r.source
+        };
+      }), null, 2);
+    }
+
+    function buildSingleRoutineJsonText(routine) {
+      return JSON.stringify({
+        title: routine.title,
+        phase: routine.phase,
+        durationMinutes: routine.durationMinutes,
+        steps: routine.steps,
+        tags: routine.tags,
+        notes: routine.notes,
+        source: routine.source
+      }, null, 2);
+    }
+
+    function renderTemplate(tpl, vars) {
+      return String(tpl || '').replace(/\{\{\s*([a-zA-Z0-9_]+)\s*\}\}/g, function(_, key) {
+        return vars[key] != null ? String(vars[key]) : '';
+      });
+    }
+
+    function generateImportPrompt() {
+      savePromptTemplates();
+      S.ui.generatedImportPrompt = renderTemplate(S.promptTemplates.screenshotToJson, {
+        jsonSchema: S.promptTemplates.jsonSchema
+      });
+      save(true);
+      renderPromptsPanel();
+      toast('Import-Prompt erzeugt.');
+    }
+
+    function generateRefineAllPrompt() {
+      savePromptTemplates();
+      S.ui.generatedRefineAllPrompt = renderTemplate(S.promptTemplates.refineAll, {
+        currentSituation: S.context.currentSituation,
+        changes: S.context.changes,
+        goals: S.context.goals,
+        constraints: S.context.constraints,
+        lifeAreas: buildLifeAreasText(),
+        routines: buildRoutinesJsonText(S.routines)
+      });
+      save(true);
+      renderPromptsPanel();
+      toast('System-Prompt erzeugt.');
+    }
+
+    function generateReviewPrompt() {
+      savePromptTemplates();
+      S.ui.generatedReviewPrompt = renderTemplate(S.promptTemplates.review, {
+        currentSituation: S.context.currentSituation,
+        lifeAreas: buildLifeAreasText(),
+        routines: buildRoutinesJsonText(S.routines)
+      });
+      save(true);
+      renderPromptsPanel();
+      toast('Analyse-Prompt erzeugt.');
+    }
+
+    function generateRoutineflowPromptForAll() {
+      savePromptTemplates();
+      S.ui.generatedRoutineflowPrompt = renderTemplate(S.promptTemplates.routineflow, {
+        routines: buildRoutinesJsonText(S.routines)
+      });
+      save(true);
+      renderPromptsPanel();
+      toast('RoutineFlow-Prompt erzeugt.');
+    }
+
+    function generateSingleRoutinePrompt(id) {
+      savePromptTemplates();
+      var routine = S.routines.find(function(r) { return r.id === id; });
+      if (!routine) return;
+      S.ui.generatedRefineAllPrompt = renderTemplate(S.promptTemplates.refineSingle, {
+        currentSituation: S.context.currentSituation,
+        changes: S.context.changes,
+        goals: S.context.goals,
+        constraints: S.context.constraints,
+        lifeAreas: buildLifeAreasText(),
+        routine: buildSingleRoutineJsonText(routine)
+      });
+      save(true);
+      renderPromptsPanel();
+      toast('Einzelroutine-Prompt erzeugt.');
+    }
+
+    function generateAllPrompts() {
+      generateImportPrompt();
+      generateRefineAllPrompt();
+      generateReviewPrompt();
+      generateRoutineflowPromptForAll();
+    }
+
+    function exportRoutinesAsDraft() {
+      S.ui.exportText = buildRoutineflowDraftForAll();
+      save(true);
+      renderRoutinesPanel();
+      toast('RoutineFlow-Entwurf erstellt.');
+    }
+
+    function buildRoutineflowDraftForAll() {
+      return JSON.stringify({
+        routines: S.routines.map(function(r) {
+          return {
+            name: r.title,
+            category: r.phase || 'Allgemein',
+            estimatedMinutes: r.durationMinutes || 0,
+            steps: r.steps || [],
+            tags: r.tags || [],
+            notes: r.notes || ''
+          };
+        })
+      }, null, 2);
+    }
+
+    function buildRoutineflowDraftForRoutine(id) {
+      var routine = S.routines.find(function(r) { return r.id === id; });
+      if (!routine) return '';
+      return JSON.stringify({
+        name: routine.title,
+        category: routine.phase || 'Allgemein',
+        estimatedMinutes: routine.durationMinutes || 0,
+        steps: routine.steps || [],
+        tags: routine.tags || [],
+        notes: routine.notes || ''
+      }, null, 2);
+    }
+
+    function renderSyncPanel() {
+      var panel = document.getElementById('panel-sync');
+      panel.innerHTML = [
+        '<div class="split">',
+          '<div class="qs">',
+            '<div class="qh">Lokale Exporte</div>',
+            '<div class="notice info">Im JSON-Export sind alle App-Daten enthalten, aber niemals GitHub-Token oder Gist-ID.</div>',
+            '<div class="toolbar">',
+              '<button class="btn btn-v" onclick="downloadJsonExport()">JSON exportieren</button>',
+              '<button class="btn btn-s" onclick="copyJsonExport()">JSON kopieren</button>',
+              '<button class="btn btn-m" onclick="importWholeAppJson()">JSON in App laden</button>',
+            '</div>',
+            '<label>Kompletter App-Export</label>',
+            '<textarea id="full-json-export" class="mono" style="min-height:320px;">' + esc(JSON.stringify(gistBuildPayload(), null, 2)) + '</textarea>',
+          '</div>',
+          '<div class="qs">',
+            '<div class="qh">GitHub Gist Sync</div>',
+            '<label>GitHub Token</label>',
+            '<input id="gist-token" type="password" value="' + esc(gistGetToken()) + '" placeholder="Personal Access Token mit gist-Rechten">',
+            '<label>Gist-ID</label>',
+            '<input id="gist-id" value="' + esc(gistGetId()) + '" placeholder="Die ID deines privaten Gist">',
+            '<label><input id="gist-auto" type="checkbox" ' + (gistGetAuto() ? 'checked' : '') + ' style="width:auto; min-height:auto; margin-right:8px;">Auto-Sync nach Änderungen</label>',
+            '<div class="toolbar">',
+              '<button class="btn btn-q" onclick="saveGistConfig()">Sync-Daten speichern</button>',
+              '<button class="btn btn-s" onclick="gistPush(false)">⬆ Hochladen</button>',
+              '<button class="btn btn-v" onclick="gistPull(false)">⬇ Herunterladen</button>',
+              '<button class="btn btn-t" onclick="mergeFromGist()">⊕ Merge</button>',
+            '</div>',
+            '<div class="notice">Gist-Dateiname dieser App: <span class="mono">' + esc(GIST_FILENAME) + '</span></div>',
+            '<div class="helper">Die GET-Requests laufen ohne <span class="mono">Cache-Control</span>, PATCH-Requests immer mit <span class="mono">Content-Type: application/json</span>. Genau so bleibt der Sync CORS-stabil.</div>',
+          '</div>',
+        '</div>',
+        '<div class="qs">',
+          '<div class="qh">PWA-Hinweis</div>',
+          '<div class="notice danger">Diese Datei ist absichtlich eine echte Single-File-App. Voll installierbare PWA-Unterstützung braucht im Browser normalerweise zusätzlich <span class="mono">manifest.json</span> und <span class="mono">sw.js</span>. Ich habe hier ein Inline-Manifest vorbereitet und die optionale Service-Worker-Registrierung abgefangen, damit du direkt bauen kannst, ohne dass die App kaputtgeht.</div>',
+        '</div>'
+      ].join('');
+    }
+
+    function saveGistConfig() {
+      setGistToken(valueOf('gist-token'));
+      setGistId(valueOf('gist-id'));
+      setGistAuto(checkedOf('gist-auto'));
+      toast('Sync-Konfiguration gespeichert.');
+      renderSyncPanel();
+    }
+
+    function downloadJsonExport() {
+      var payload = JSON.stringify(gistBuildPayload(), null, 2);
+      var blob = new Blob([payload], { type: 'application/json;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'zufriedenheit-und-struktur-export-' + today() + '.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      toast('JSON exportiert.');
+    }
+
+    function copyJsonExport() {
+      copyText(JSON.stringify(gistBuildPayload(), null, 2));
+    }
+
+    function importWholeAppJson() {
+      var txt = valueOf('full-json-export');
+      if (!txt.trim()) {
+        toast('Kein JSON vorhanden.');
+        return;
+      }
+      try {
+        var parsed = JSON.parse(txt);
+        var incoming = parsed.S || parsed;
+        S = mergeAppState(defaultState(), incoming);
+        ensureDefaults();
+        save();
+        toast('App-JSON geladen.');
+      } catch (e) {
+        openChoiceModal('Import-Fehler', 'Der komplette App-Import ist fehlgeschlagen: ' + e.message, [
+          { label: 'Schließen', className: 'btn-m', onClick: function() {} }
+        ]);
+      }
+    }
+
+    function copyText(text) {
+      if (!text) { toast('Nichts zu kopieren.'); return; }
+      navigator.clipboard.writeText(String(text)).then(function() {
+        toast('In die Zwischenablage kopiert.');
+      }).catch(function() {
+        toast('Kopieren nicht möglich.');
+      });
+    }
+
+    function updateManifest() {
+      var manifest = {
+        name: S.meta.appName || 'Zufriedenheit & Struktur',
+        short_name: 'Struktur',
+        description: 'Routinen überarbeiten, Lebensbereiche bewerten, Prompts erzeugen.',
+        start_url: './index.html',
+        display: 'standalone',
+        background_color: '#161a28',
+        theme_color: '#161a28',
+        orientation: 'any',
+        icons: [
+          {
+            src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%23161a28'/><text x='50' y='60' text-anchor='middle' font-size='42' fill='%23f0c36a' font-family='monospace'>ZS</text></svg>",
+            sizes: 'any',
+            type: 'image/svg+xml',
+            purpose: 'any maskable'
+          }
+        ]
+      };
+      var href = 'data:application/manifest+json;charset=utf-8,' + encodeURIComponent(JSON.stringify(manifest));
+      var el = document.getElementById('app-manifest');
+      if (el) el.setAttribute('href', href);
+    }
+
+    function maybeRegisterServiceWorker() {
+      // Entscheidungsnotiz: Eine echte Single-File-App kann keinen stabilen Service Worker komplett inline hosten.
+      // Deshalb registrieren wir optional sw.js und fangen Fehler ab. Sobald die Datei später ergänzt wird,
+      // ist die App ohne Codeänderung PWA-fähiger. Fehlt sw.js, bleibt die App trotzdem voll nutzbar.
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('sw.js').catch(function(err) {
+            console.warn('Service Worker optional / derzeit nicht verfügbar:', err);
+          });
+        });
+      }
+    }
+
+    function valueOf(id) {
+      var el = document.getElementById(id);
+      return el ? el.value : '';
+    }
+
+    function valueMaybe(id, fallback) {
+      var el = document.getElementById(id);
+      return el ? el.value : fallback;
+    }
+
+    function checkedOf(id) {
+      var el = document.getElementById(id);
+      return !!(el && el.checked);
+    }
+
+    function escJs(s) {
+      return String(s || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    }
+
+    function init() {
+      load();
+      renderAll();
+      maybeRegisterServiceWorker();
+      gistSyncOnStart();
+    }
+
+    init();
+  </script>
+</body>
+</html>
